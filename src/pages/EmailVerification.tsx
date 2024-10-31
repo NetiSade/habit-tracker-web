@@ -22,10 +22,19 @@ const EmailVerification = () => {
 
       try {
         const baseUrl = import.meta.env.VITE_API_URL;
-        console.log("baseUrl", baseUrl);
-        await axios.post(`${baseUrl}/auth/verify-email`, {
-          token,
+
+        const res = await axios({
+          method: "post",
+          url: `${baseUrl}/auth/verify-email`,
+          data: { token },
+          withCredentials: true, // Include cookies or auth headers if needed
+          headers: {
+            "Content-Type": "application/json",
+          },
         });
+
+        console.log("res", res.data);
+
         setVerificationStatus("success");
       } catch (error) {
         console.error(error);
