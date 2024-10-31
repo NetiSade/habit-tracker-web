@@ -21,7 +21,7 @@ const EmailVerification = () => {
       }
 
       try {
-        const baseUrl = import.meta.env.API_URL;
+        const baseUrl = import.meta.env.VITE_API_URL;
         console.log("baseUrl", baseUrl);
         await axios.post(`${baseUrl}/auth/verify-email`, {
           token,
