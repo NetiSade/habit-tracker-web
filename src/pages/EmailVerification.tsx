@@ -11,16 +11,18 @@ const EmailVerification = () => {
 
   useEffect(() => {
     const verifyEmail = async () => {
+      console.log("verify email called");
       const token = searchParams.get("token");
 
       if (!token) {
         setVerificationStatus("error");
         setError("Verification token is missing");
-        return;
+        throw new Error("Verification token is missing");
       }
 
       try {
         const baseUrl = import.meta.env.API_URL;
+        console.log("baseUrl", baseUrl);
         await axios.post(`${baseUrl}/auth/verify-email`, {
           token,
         });
