@@ -6,7 +6,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<EmailVerification />} />
+        <Route path="/email-verification" element={<EmailVerification />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
