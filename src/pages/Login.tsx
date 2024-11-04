@@ -17,7 +17,7 @@ const LoginPage = () => {
     const result = await login(email, password);
     console.log(`${LOG_TAG} login() result:`, result);
     if (result.success) {
-      navigate("/dashboard");
+      navigate("/");
     } else {
       setError("Login failed. Please try again.");
     }

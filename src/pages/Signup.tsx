@@ -14,7 +14,7 @@ const SignupPage: React.FC = () => {
     const result = await signup("", email, password);
 
     if (result.success) {
-      navigate("/home");
+      navigate("/");
     } else {
       setError("Signup failed. Please try again.");
     }
