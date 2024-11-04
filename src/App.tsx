@@ -1,15 +1,15 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import EmailVerification from "./pages/EmailVerification";
-import NotFound from "./pages/NotFound";
+import { BrowserRouter } from "react-router-dom";
+
+import { AuthProvider } from "./auth/context/AuthContext";
+import AppRoutes from "./AppRoutes";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/email-verification" element={<EmailVerification />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

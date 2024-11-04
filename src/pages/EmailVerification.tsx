@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 
 const EmailVerification = () => {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [verificationStatus, setVerificationStatus] = useState<
     "verifying" | "success" | "error"
@@ -15,9 +16,9 @@ const EmailVerification = () => {
       const token = searchParams.get("token");
 
       if (!token) {
-        setVerificationStatus("error");
-        setError("Verification token is missing");
-        throw new Error("Verification token is missing");
+        //redirect to '/'
+        navigate("/", { replace: true });
+        return;
       }
 
       try {
