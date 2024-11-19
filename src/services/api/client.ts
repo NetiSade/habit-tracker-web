@@ -8,6 +8,7 @@ const API_URL = getApiUrl();
 
 export const apiClient = axios.create({
   baseURL: API_URL,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
@@ -95,14 +96,6 @@ if (import.meta.env.DEV) {
   // Log responses in development
   apiClient.interceptors.response.use((response) => {
     console.log(LOG_TAG, "Response:", response);
-    return response;
-  });
-}
-
-// Log responses in development
-if (import.meta.env.DEV) {
-  apiClient.interceptors.response.use((response) => {
-    console.log(LOG_TAG, "~ Response:", response);
     return response;
   });
 }

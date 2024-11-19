@@ -1,3 +1,7 @@
 export const getApiUrl = () => {
-  return import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+  if (import.meta.env.VITE_ENV === "development") {
+    return "http://localhost:3000";
+  }
+  // production
+  return import.meta.env.VITE_API_URL;
 };

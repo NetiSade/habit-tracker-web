@@ -7,6 +7,7 @@ import HomePage from "./pages/Home";
 import { PrivateRoute } from "./components/PrivateRoute";
 import { useAuth } from "./auth/context/useAuth";
 import SignupPage from "./pages/Signup";
+import { HabitsProvider } from "./habits/context/HabitsContext";
 
 const AppRoutes = () => {
   const { isAuthenticated, isLoading } = useAuth();
@@ -31,7 +32,14 @@ const AppRoutes = () => {
 
       {/* Protected routes */}
       <Route element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
-        <Route path="/home" element={<HomePage />} />
+        <Route
+          path="/home"
+          element={
+            <HabitsProvider>
+              <HomePage />
+            </HabitsProvider>
+          }
+        />
         {/* <Route path="/dashboard" element={<DashboardPage />} /> */}
         {/* Add more protected routes here */}
       </Route>
