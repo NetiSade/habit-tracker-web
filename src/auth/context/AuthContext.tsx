@@ -39,8 +39,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const signup = async (username: string, email: string, password: string) => {
     const result = await authService.signup(username, email, password);
-    setIsAuthenticated(result.success);
-    setUserId(result.userId || null);
     return result;
   };
 
