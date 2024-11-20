@@ -61,7 +61,7 @@ export const HabitsProvider: React.FC<HabitsProviderProps> = ({ children }) => {
         throw new Error("User is not authenticated");
       }
       await habitsService.updateHabits(userId, updatedHabits);
-      await getHabits();
+      await getHabits(true);
     } catch (error) {
       console.error("Error updating habits:", error);
       throw error;

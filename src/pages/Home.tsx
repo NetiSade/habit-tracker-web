@@ -1,11 +1,18 @@
 import { useState } from "react";
-import CheckboxList from "../components/CheckboxList";
+import CheckboxList, { CheckboxItem } from "../components/CheckboxList";
 import { useHabits } from "../habits/context/useHabits";
 import NewHabitModal from "../components/modals/NewHabitModal";
 
 const HomePage = () => {
-  const { habits, isLoading, toggleHabit, getHabits, createHabit } =
-    useHabits();
+  const {
+    habits,
+    isLoading,
+    toggleHabit,
+    getHabits,
+    createHabit,
+    updateHabits,
+    deleteHabit,
+  } = useHabits();
 
   // State to control modal visibility
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,6 +22,32 @@ const HomePage = () => {
       await toggleHabit(habitId, isChecked);
     } catch (error) {
       console.error("Error toggling habit:", error);
+      getHabits().catch(); // silently catch the error
+    }
+  };
+
+  const handleReorder = async (items: CheckboxItem[]) => {
+    const updatedHabits = items.map((item, index) => ({
+      id: item.id,
+      priority: index + 1,
+    }));
+    updateHabits(updatedHabits).catch(); // silently catch the error
+  };
+
+  const handleEditHabit = async (item: CheckboxItem) => {
+    try {
+      await updateHabits([{ id: item.id, name: item.label }]);
+    } catch (error) {
+      console.error("Error updating habit:", error);
+      getHabits().catch(); // silently catch the error
+    }
+  };
+
+  const handleRemoveHabit = async (habitId: string) => {
+    try {
+      await deleteHabit(habitId);
+    } catch (error) {
+      console.error("Error deleting habit:", error);
       getHabits().catch(); // silently catch the error
     }
   };
@@ -82,6 +115,9 @@ const HomePage = () => {
               onItemChange={async (habitId, isChecked) => {
                 await tryToggleHabit(habitId, isChecked);
               }}
+              onReorder={handleReorder}
+              onEdit={handleEditHabit}
+              onRemove={handleRemoveHabit}
             />
           )}
         </div>
