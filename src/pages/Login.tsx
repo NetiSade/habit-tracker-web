@@ -9,6 +9,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -46,14 +47,23 @@ const LoginPage = () => {
             <label htmlFor="password" className="block text-gray-700">
               Password
             </label>
-            <input
-              type="password"
-              id="password"
-              className="mt-1 w-full rounded border p-2"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                className="mt-1 w-full rounded border p-2"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <button
+                type="button"
+                className="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
           </div>
           <button
             type="submit"
@@ -72,4 +82,5 @@ const LoginPage = () => {
     </div>
   );
 };
+
 export default LoginPage;
