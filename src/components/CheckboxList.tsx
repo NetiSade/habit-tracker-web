@@ -26,6 +26,7 @@ export interface CheckboxItem {
 
 interface CheckboxListProps {
   items: CheckboxItem[];
+  isEditMode?: boolean;
   onItemChange?: (itemId: string, isChecked: boolean) => void;
   onReorder?: (items: CheckboxItem[]) => void;
   onEdit?: (item: CheckboxItem) => void;
@@ -38,8 +39,10 @@ const SortableItem = ({
   onCheckboxChange,
   onEdit,
   onRemove,
+  isEditMode,
 }: {
   item: CheckboxItem;
+  isEditMode?: boolean;
   onCheckboxChange: (id: string) => void;
   onEdit: (item: CheckboxItem) => void;
   onRemove: (id: string) => void;
@@ -117,20 +120,22 @@ const SortableItem = ({
         )}
       </label>
 
-      <div className="ml-2 flex space-x-1">
-        <button
-          onClick={() => setIsEditing(!isEditing)}
-          className="rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
-        >
-          <Pencil size={16} />
-        </button>
-        <button
-          onClick={() => onRemove(item.id)}
-          className="rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-red-600"
-        >
-          <X size={16} />
-        </button>
-      </div>
+      {isEditMode && (
+        <div className="ml-2 flex space-x-1">
+          <button
+            onClick={() => setIsEditing(!isEditing)}
+            className="rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
+          >
+            <Pencil size={16} />
+          </button>
+          <button
+            onClick={() => onRemove(item.id)}
+            className="rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-red-600"
+          >
+            <X size={16} />
+          </button>
+        </div>
+      )}
     </div>
   );
 };
@@ -141,6 +146,7 @@ const CheckboxList = ({
   onReorder,
   onEdit,
   onRemove,
+  isEditMode,
 }: CheckboxListProps) => {
   const [items, setItems] = useState<CheckboxItem[]>(initialItems);
   const [itemToRemove, setItemToRemove] = useState<CheckboxItem | null>(null);
@@ -206,6 +212,7 @@ const CheckboxList = ({
             <SortableItem
               key={item.id}
               item={item}
+              isEditMode={isEditMode}
               onCheckboxChange={handleCheckboxChange}
               onEdit={handleEdit}
               onRemove={() => {

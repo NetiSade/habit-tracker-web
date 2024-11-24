@@ -16,6 +16,14 @@ const HomePage = () => {
 
   // State to control modal visibility
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  const todayDate = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
   const tryToggleHabit = async (habitId: string, isChecked: boolean) => {
     try {
@@ -97,9 +105,24 @@ const HomePage = () => {
         </header>
 
         <div className="rounded-lg bg-white p-6 shadow-xl">
-          <h2 className="mb-6 text-2xl font-bold text-gray-800">
-            Today's Habits
-          </h2>
+          <div className="mb-4 flex items-center justify-between">
+            <div className="">
+              <h2 className="text-2xl font-bold text-gray-800">
+                Today's Habits
+              </h2>
+              <h2 className="text-lg text-gray-800">
+                {allHabitsCompleted ? `✅ ${todayDate}` : `🗓️ ${todayDate}`}
+              </h2>
+            </div>
+            <div>
+              <button
+                onClick={() => setIsEditMode(!isEditMode)}
+                className="rounded p-2 hover:bg-gray-100"
+              >
+                {isEditMode ? "Done" : "Edit"}
+              </button>
+            </div>
+          </div>
 
           {habits.length === 0 ? (
             <div className="text-center italic text-gray-500">
@@ -115,6 +138,7 @@ const HomePage = () => {
               onItemChange={async (habitId, isChecked) => {
                 await tryToggleHabit(habitId, isChecked);
               }}
+              isEditMode={isEditMode}
               onReorder={handleReorder}
               onEdit={handleEditHabit}
               onRemove={handleRemoveHabit}
