@@ -111,7 +111,9 @@ const SortableItem = ({
             autoFocus
           />
         ) : (
-          <span className="text-gray-700">{item.label}</span>
+          <span className="text-gray-700">
+            {item.checked ? `${item.label} 😎 🎉 🚀` : item.label}
+          </span>
         )}
       </label>
 
