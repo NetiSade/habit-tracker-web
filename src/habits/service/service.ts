@@ -87,4 +87,28 @@ export const habitsService = {
       throw error;
     }
   },
+
+  getProgressSummary: async (
+    userId: string,
+    numOfDays = 7,
+  ): Promise<unknown> => {
+    try {
+      // get start date - numOfDays ago
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - numOfDays);
+      // get end date - today
+      const endDate = new Date();
+      const response = await apiClient.get(`/habits/${userId}/summary`, {
+        params: {
+          start_date: startDate.toISOString(),
+          end_date: endDate.toISOString(),
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      console.error(LOG_PREFIX + "Error getting week progress summary:", error);
+      throw error;
+    }
+  },
 };
