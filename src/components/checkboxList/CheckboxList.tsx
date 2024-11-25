@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { GripVertical, Pencil, X } from "lucide-react";
 import {
   DndContext,
   closestCenter,
@@ -13,16 +12,10 @@ import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
-  useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-
-export interface CheckboxItem {
-  id: string;
-  label: string;
-  checked: boolean;
-}
+import { CheckboxItem } from "./types";
+import CheckboxListItem from "./CheckboxListItem";
 
 interface CheckboxListProps {
   items: CheckboxItem[];
@@ -32,113 +25,6 @@ interface CheckboxListProps {
   onEdit?: (item: CheckboxItem) => void;
   onRemove?: (itemId: string) => void;
 }
-
-// Sortable item component
-const SortableItem = ({
-  item,
-  onCheckboxChange,
-  onEdit,
-  onRemove,
-  isEditMode,
-}: {
-  item: CheckboxItem;
-  isEditMode?: boolean;
-  onCheckboxChange: (id: string) => void;
-  onEdit: (item: CheckboxItem) => void;
-  onRemove: (id: string) => void;
-}) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedLabel, setEditedLabel] = useState(item.label);
-
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: item.id });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
-
-  const handleEditSubmit = () => {
-    if (editedLabel.trim()) {
-      onEdit({ ...item, label: editedLabel.trim() });
-      setIsEditing(false);
-    }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      handleEditSubmit();
-    } else if (e.key === "Escape") {
-      setEditedLabel(item.label);
-      setIsEditing(false);
-    }
-  };
-
-  return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      className={`flex items-center rounded-md border ${
-        isDragging ? "border-blue-400 bg-blue-50" : "border-gray-200 bg-white"
-      } p-2`}
-    >
-      <div
-        {...attributes}
-        {...listeners}
-        className="mr-2 cursor-grab text-gray-400 hover:text-gray-600"
-      >
-        <GripVertical size={16} />
-      </div>
-
-      <label className="flex flex-1 cursor-pointer items-center space-x-2">
-        <input
-          type="checkbox"
-          checked={item.checked}
-          onChange={() => onCheckboxChange(item.id)}
-          className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-        />
-        {isEditing ? (
-          <input
-            type="text"
-            value={editedLabel}
-            onChange={(e) => setEditedLabel(e.target.value)}
-            onBlur={handleEditSubmit}
-            onKeyDown={handleKeyPress}
-            className="flex-1 rounded border border-gray-300 px-2 py-1 text-sm focus:border-blue-500 focus:outline-none"
-            autoFocus
-          />
-        ) : (
-          <span className="text-gray-700">
-            {item.checked ? `${item.label} 😎 🎉 🚀` : item.label}
-          </span>
-        )}
-      </label>
-
-      {isEditMode && (
-        <div className="ml-2 flex space-x-1">
-          <button
-            onClick={() => setIsEditing(!isEditing)}
-            className="rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
-          >
-            <Pencil size={16} />
-          </button>
-          <button
-            onClick={() => onRemove(item.id)}
-            className="rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-red-600"
-          >
-            <X size={16} />
-          </button>
-        </div>
-      )}
-    </div>
-  );
-};
 
 const CheckboxList = ({
   items: initialItems,
@@ -209,7 +95,7 @@ const CheckboxList = ({
       <SortableContext items={items} strategy={verticalListSortingStrategy}>
         <div className="space-y-2">
           {items.map((item) => (
-            <SortableItem
+            <CheckboxListItem
               key={item.id}
               item={item}
               isEditMode={isEditMode}
@@ -218,6 +104,7 @@ const CheckboxList = ({
               onRemove={() => {
                 setItemToRemove(item);
               }}
+              showEmoji
             />
           ))}
         </div>

@@ -3,11 +3,12 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/Login";
 import EmailVerification from "./pages/EmailVerification";
 import NotFound from "./pages/NotFound";
-import HomePage from "./pages/Home";
+import HomePage from "./pages/home/Home";
 import { PrivateRoute } from "./components/PrivateRoute";
 import { useAuth } from "./auth/context/useAuth";
 import SignupPage from "./pages/Signup";
 import { HabitsProvider } from "./habits/context/HabitsContext";
+import Dashboard from "./pages/dashboard/Dashboard";
 
 const AppRoutes = () => {
   const { isAuthenticated, isLoading } = useAuth();
@@ -40,7 +41,8 @@ const AppRoutes = () => {
             </HabitsProvider>
           }
         />
-        {/* <Route path="/dashboard" element={<DashboardPage />} /> */}
+        <Route path="/dashboard" element={<Dashboard />} />
+
         {/* Add more protected routes here */}
       </Route>
 
