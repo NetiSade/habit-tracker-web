@@ -9,3 +9,13 @@ export type UpdatedHabit = {
   priority?: number;
   name?: string;
 };
+
+export type DateProgressSummary = {
+  date: string;
+  completed_habits: string[];
+  total_habits: string[];
+};
+
+export type ProgressSummaryResponse = {
+  summary: DateProgressSummary[];
+};

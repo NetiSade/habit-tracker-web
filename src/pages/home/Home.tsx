@@ -8,6 +8,7 @@ import {
   getRandomEncouragementMessage,
 } from "./utils";
 import EncouragementSection from "./EncouragementSection";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const {
@@ -21,8 +22,8 @@ const HomePage = () => {
 
   const [isNewHabitModalOpen, setIsNewHabitModalOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
-
   const todayDate = getFormattedCurrentDate();
+  const navigate = useNavigate();
 
   const tryToggleHabit = async (habitId: string, isChecked: boolean) => {
     try {
@@ -153,6 +154,14 @@ const HomePage = () => {
             onClose={() => setIsNewHabitModalOpen(false)}
             onCreateHabit={handleCreateHabit}
           />
+        </div>
+        <div className="text-center">
+          <button
+            onClick={() => navigate("/dashboard")}
+            className="rounded-lg bg-amber-600 px-6 py-3 text-white transition-colors hover:bg-amber-700"
+          >
+            Dashboard
+          </button>
         </div>
       </div>
     </div>

@@ -1,9 +1,10 @@
 import { createContext } from "react";
 import { Habit } from "../../types/habit";
-import { UpdatedHabit } from "../service/types";
+import { ProgressSummaryResponse, UpdatedHabit } from "../service/types";
 
 export interface HabitsContextType {
   habits: Habit[];
+  progressSummary: ProgressSummaryResponse | null;
   isLoading: boolean;
   getHabits: () => Promise<void>;
   createHabit: (name: string) => Promise<void>;
