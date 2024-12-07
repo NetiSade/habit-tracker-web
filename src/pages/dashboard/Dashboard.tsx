@@ -20,16 +20,18 @@ const HabitPerformanceDashboard = () => {
 
     // Calculate performance metrics
     const totalDays = sortedData.length;
-    const completionRates = sortedData.map((day) => ({
-      date: day.date,
-      completionRate: isNaN(
-        day.completed_habits.length / day.total_habits.length,
-      )
-        ? 0
-        : (day.completed_habits.length / day.total_habits.length) * 100,
-      completedHabits: day.completed_habits,
-      totalHabits: day.total_habits,
-    }));
+    const completionRates = sortedData.map((day) => {
+      return {
+        date: day.date,
+        completionRate: isNaN(
+          day.completed_habits.length / day.total_habits.length,
+        )
+          ? 0
+          : (day.completed_habits.length / day.total_habits.length) * 100,
+        completedHabits: day.completed_habits,
+        totalHabits: day.total_habits,
+      };
+    });
 
     // Overall performance
     const overallCompletionRate =
@@ -164,10 +166,7 @@ const HabitPerformanceDashboard = () => {
                   Date
                 </th>
                 <th className="p-3 text-center font-semibold text-gray-600">
-                  Completed Habits
-                </th>
-                <th className="p-3 text-center font-semibold text-gray-600">
-                  Total Habits
+                  Completed
                 </th>
                 <th className="p-3 text-center font-semibold text-gray-600">
                   Completion Rate
@@ -185,9 +184,6 @@ const HabitPerformanceDashboard = () => {
                   </td>
                   <td className="p-3 text-center text-gray-700">
                     {day.completedHabits.length}
-                  </td>
-                  <td className="p-3 text-center text-gray-700">
-                    {day.totalHabits.length}
                   </td>
                   <td className="p-3 text-center font-medium text-blue-600">
                     {day.completionRate.toFixed(1)}%

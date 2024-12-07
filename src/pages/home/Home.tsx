@@ -9,11 +9,13 @@ import {
 } from "./utils";
 import EncouragementSection from "./EncouragementSection";
 import { useNavigate } from "react-router-dom";
+import { LayoutDashboard, SquarePlus } from "lucide-react";
 
 const HomePage = () => {
   const {
     habits,
     isLoading,
+    getHabits,
     toggleHabit,
     createHabit,
     updateHabits,
@@ -60,6 +62,8 @@ const HomePage = () => {
   const handleCreateHabit = async (habitName: string) => {
     try {
       await createHabit(habitName);
+      // refetch habits to update the UI
+      await getHabits();
     } catch (error) {
       console.error("Error creating habit:", error);
     }
@@ -140,29 +144,30 @@ const HomePage = () => {
           <EncouragementSection encouragementMessage={encouragementMessage} />
         )}
 
-        {/* New Habit Button and Modal */}
-        <div className="text-center">
-          <button
-            onClick={() => setIsNewHabitModalOpen(true)}
-            className="rounded-lg bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700"
-          >
-            Add New Habit
-          </button>
-
-          <NewHabitModal
-            isOpen={isNewHabitModalOpen}
-            onClose={() => setIsNewHabitModalOpen(false)}
-            onCreateHabit={handleCreateHabit}
-          />
+        <div>
+          <div className="flex justify-center">
+            <button
+              onClick={() => navigate("/dashboard")}
+              className="mb-8 flex w-80 items-center justify-center gap-2 rounded-lg bg-amber-600 px-6 py-3 text-white transition-colors hover:bg-amber-700"
+            >
+              <LayoutDashboard />
+              Dashboard
+            </button>
+          </div>
+          <div className="flex justify-center">
+            <button
+              onClick={() => setIsNewHabitModalOpen(true)}
+              className="rounded-lg bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700"
+            >
+              <SquarePlus />
+            </button>
+          </div>
         </div>
-        <div className="text-center">
-          <button
-            onClick={() => navigate("/dashboard")}
-            className="rounded-lg bg-amber-600 px-6 py-3 text-white transition-colors hover:bg-amber-700"
-          >
-            Dashboard
-          </button>
-        </div>
+        <NewHabitModal
+          isOpen={isNewHabitModalOpen}
+          onClose={() => setIsNewHabitModalOpen(false)}
+          onCreateHabit={handleCreateHabit}
+        />
       </div>
     </div>
   );
