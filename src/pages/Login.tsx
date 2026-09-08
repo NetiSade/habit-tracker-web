@@ -65,6 +65,11 @@ const LoginPage = () => {
               </button>
             </div>
           </div>
+          <div className="mb-4 text-right">
+            <Link to="/forgot-password" className="text-sm text-blue-500">
+              Forgot password?
+            </Link>
+          </div>
           <button
             type="submit"
             className="w-full rounded bg-blue-500 py-2 text-white hover:bg-blue-600"
