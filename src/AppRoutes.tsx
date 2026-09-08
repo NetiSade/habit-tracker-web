@@ -7,6 +7,8 @@ import HomePage from "./pages/home/Home";
 import { PrivateRoute } from "./components/PrivateRoute";
 import { useAuth } from "./auth/context/useAuth";
 import SignupPage from "./pages/Signup";
+import ForgotPasswordPage from "./pages/ForgotPassword";
+import ResetPasswordPage from "./pages/ResetPassword";
 import { HabitsProvider } from "./habits/context/HabitsContext";
 import HabitPerformanceDashboard from "./pages/dashboard/Dashboard";
 
@@ -29,6 +31,8 @@ const AppRoutes = () => {
           }
         />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/email-verification" element={<EmailVerification />} />
         <Route path="*" element={<NotFound />} />
 
