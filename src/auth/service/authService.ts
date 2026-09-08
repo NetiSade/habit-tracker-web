@@ -7,6 +7,8 @@ import {
   LoginResponse,
   SignupResponse,
   SilentLoginResponse,
+  ForgotPasswordResponse,
+  ResetPasswordResponse,
 } from "./types";
 
 const LOG_PREFIX = "[AuthService]";
@@ -143,6 +145,37 @@ export const authService = {
       console.error(LOG_PREFIX, "Silent login failed:", error);
       await tokenStorage.clearTokens();
       return { success: false, userId: null };
+    }
+  },
+
+  forgotPassword: async (email: string): Promise<ForgotPasswordResponse> => {
+    try {
+      await apiClient.post("/auth/forgot-password", { email });
+
+      return { success: true };
+    } catch (error) {
+      console.error(LOG_PREFIX, "Forgot password request failed:", error);
+      return {
+        success: false,
+        error,
+      };
+    }
+  },
+
+  resetPassword: async (
+    token: string,
+    password: string,
+  ): Promise<ResetPasswordResponse> => {
+    try {
+      await apiClient.post("/auth/reset-password", { token, password });
+
+      return { success: true };
+    } catch (error) {
+      console.error(LOG_PREFIX, "Reset password failed:", error);
+      return {
+        success: false,
+        error,
+      };
     }
   },
 

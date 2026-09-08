@@ -20,3 +20,13 @@ export interface SilentLoginResponse {
   success: boolean;
   userId: string | null;
 }
+
+export interface ForgotPasswordResponse {
+  success: boolean;
+  error?: unknown;
+}
+
+export interface ResetPasswordResponse {
+  success: boolean;
+  error?: unknown;
+}
